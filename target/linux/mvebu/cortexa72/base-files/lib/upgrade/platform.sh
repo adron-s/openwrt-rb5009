@@ -33,6 +33,10 @@ platform_do_upgrade() {
 	marvell,armada8040-mcbin-singleshot)
 		legacy_sdcard_do_upgrade "$1"
 		;;
+	mikrotik,rb5009)
+		PART_NAME=firmware
+		default_do_upgrade "$1"
+		;;
 	*)
 		default_do_upgrade "$1"
 		;;
