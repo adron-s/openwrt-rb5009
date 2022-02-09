@@ -1,5 +1,30 @@
 ![OpenWrt logo](include/logo.png)
 
+## The installation process for Mikrotik RB5009:
+
+tftpboot from [ openwrt-mvebu-cortexa72-mikrotik_rb5009-initramfs-fit-uImage.elf ](https://github.com/adron-s/openwrt-rb5009/releases/download/rb5009-20220209/openwrt-mvebu-cortexa72-mikrotik_rb5009-initramfs-fit-uImage.elf)
+
+To do this, prepare the tftp server and run the following commands on the RouterOS:
+
+```
+/system/routerboard/settings/set boot-device=ethernet
+/system/reboot
+```
+
+Log in(via SSH) to the newly bootted initramfs OpenWrt and run the following
+commands on it:
+
+```
+wget https://github.com/adron-s/aux-loader2/raw/main/releases/2.00-latest/rbt-with-aux-for-mtd5.bin \
+  -O- | mtd write - RouterBOOT
+echo cfg > /sys/firmware/mikrotik/soft_config/boot_device
+echo 1 > /sys/firmware/mikrotik/soft_config/commit
+
+wget https://github.com/adron-s/openwrt-rb5009/releases/download/rb5009-20220209/openwrt-mvebu-cortexa72-mikrotik_rb5009-squashfs-sysupgrade.bin \
+  -O- > /tmp/fw.bin && sysupgrade /tmp/fw.bin
+```
+## That's all. Your RB5009 is ready to be used with OpenWrt.
+
 OpenWrt Project is a Linux operating system targeting embedded devices. Instead
 of trying to create a single, static firmware, OpenWrt provides a fully
 writable filesystem with package management. This frees you from the
