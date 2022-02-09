@@ -1,0 +1,13 @@
+diff -rNu a/net/bridge/br_switchdev.c b/net/bridge/br_switchdev.c
+--- a/net/bridge/br_switchdev.c	2022-01-19 14:53:07.059595555 +0200
++++ b/net/bridge/br_switchdev.c	2022-01-19 14:54:39.034486230 +0200
+@@ -115,9 +115,6 @@
+ 	};
+ 	struct net_device *dev = fdb->dst ? fdb->dst->dev : br->dev;
+ 
+-	if (test_bit(BR_FDB_LOCAL, &fdb->flags))
+-		return;
+-
+ 	switch (type) {
+ 	case RTM_DELNEIGH:
+ 		call_switchdev_notifiers(SWITCHDEV_FDB_DEL_TO_DEVICE,

@@ -1,0 +1,20 @@
+diff -rNu a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
+--- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c	2022-01-18 08:46:10.299944874 +0200
++++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c	2022-01-18 09:15:41.993041235 +0200
+@@ -5727,6 +5727,16 @@
+ 		}
+ 	}
+ 
++	{
++		struct device_node *np = to_of_node(fwnode);
++		of_get_mac_address(np, hw_mac_addr);
++		if (is_valid_ether_addr(hw_mac_addr)) {
++			*mac_from = "dtb";
++			ether_addr_copy(dev->dev_addr, hw_mac_addr);
++			return;
++		}
++	}
++
+ 	*mac_from = "random";
+ 	eth_hw_addr_random(dev);
+ }

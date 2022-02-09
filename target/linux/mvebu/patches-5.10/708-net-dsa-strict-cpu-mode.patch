@@ -1,0 +1,27 @@
+diff -rNu a/include/net/dsa.h b/include/net/dsa.h
+--- a/include/net/dsa.h	2022-01-19 11:06:49.163794543 +0200
++++ b/include/net/dsa.h	2022-01-19 11:05:42.891832804 +0200
+@@ -214,6 +214,7 @@
+ 	struct device_node	*dn;
+ 	unsigned int		ageing_time;
+ 	bool			vlan_filtering;
++	bool			strict_cpu_mode;
+ 	u8			stp_state;
+ 	struct net_device	*bridge_dev;
+ 	struct devlink_port	devlink_port;
+diff -rNu a/net/dsa/tag_dsa.c b/net/dsa/tag_dsa.c
+--- a/net/dsa/tag_dsa.c	2022-01-16 10:14:24.000000000 +0200
++++ b/net/dsa/tag_dsa.c	2022-01-19 11:58:49.877936826 +0200
+@@ -131,8 +131,10 @@
+ 			skb->data - ETH_HLEN - DSA_HLEN,
+ 			2 * ETH_ALEN);
+ 	}
+-
+-	skb->offload_fwd_mark = 1;
++	if (likely(dev->dsa_ptr->strict_cpu_mode))
++		skb->offload_fwd_mark = 0;
++	else
++		skb->offload_fwd_mark = 1;
+ 
+ 	return skb;
+ }
