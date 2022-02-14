@@ -15,7 +15,7 @@ Log in(via SSH) to the newly bootted initramfs OpenWrt and run the following
 commands on it:
 
 ```
-wget https://github.com/adron-s/aux-loader2/raw/main/releases/2.00-latest/rbt-with-aux-for-mtd5.bin \
+wget https://github.com/adron-s/aux-loader2/raw/main/releases/2.xx-latest/rbt-with-aux-for-mtd5.bin \
   -O- | mtd write - RouterBOOT
 echo cfg > /sys/firmware/mikrotik/soft_config/boot_device
 echo 1 > /sys/firmware/mikrotik/soft_config/commit
